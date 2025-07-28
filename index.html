@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThinkSolveDeliver - Excel Resources</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
+        }
+        .accordion-content.open {
+            transition: max-height 1s ease-in-out;
+        }
+        .accordion-button svg {
+            transition: transform 0.3s ease-in-out;
+        }
+        .accordion-button.open svg {
+            transform: rotate(180deg);
+        }
+        /* Lightbox styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+            justify-content: center;
+            align-items: center;
+        }
+        .lightbox-content {
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 900px;
+            max-height: 90vh;
+        }
+        .lightbox-close {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: #f1f1f1;
+            font-size: 40px;
+            font-weight: bold;
+            transition: 0.3s;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800">
+
+    <div class="container mx-auto px-4 py-8 md:py-12">
+        <header class="text-center mb-10">
+            <div class="flex justify-center items-center gap-4">
+                <img src="images/logo.jpg" alt="ThinkSolveDeliver Logo" class="h-12 w-auto">
+                <h1 class="text-4xl md:text-5xl font-bold text-gray-900">ThinkSolveDeliver</h1>
+            </div>
+            <p class="mt-4 text-lg text-gray-600">Your one-stop collection of essential Excel resources, case studies, and AI-powered tips.</p>
+        </header>
+
+        <main class="max-w-4xl mx-auto space-y-4">
+             <h2 class="text-3xl font-bold text-center text-gray-800 mb-6 mt-12">Resource Library</h2>
+             <div id="resources-container" class="space-y-4">
+                </div>
+        </main>
+        
+        <section class="max-w-4xl mx-auto mt-16">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">Case Studies & Problems</h2>
+            <div id="case-studies-container" class="space-y-4">
+                </div>
+        </section>
+        
+        <footer class="text-center mt-16 pt-8 border-t border-gray-200 text-gray-500">
+             <p class="font-semibold text-gray-600">© ThinkSolveDeliver team</p>
+             <p class="mt-1">For more details contact <a href="mailto:hello@thinksolvedeliver.com" class="text-indigo-600 hover:underline">hello@thinksolvedeliver.com</a></p>
+             <p class="text-sm mt-1">(Note: Please confirm this is the correct email address)</p>
+        </footer>
+    </div>
+
+    <div id="image-lightbox" class="lightbox">
+        <span class="lightbox-close">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
+    </div>
+
+
+    <script src="data.js"></script>
+    <script>
+        // --- RENDER FUNCTIONS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            renderResources();
+            renderCaseStudies();
+            setupLightbox();
+        });
+
+        function createAccordionItem(item, isCaseStudy = false) {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
+            itemDiv.id = `${isCaseStudy ? 'case' : 'resource'}-${item.id}`;
+
+            const button = document.createElement('button');
+            button.className = 'accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg text-gray-700 hover:bg-gray-100 focus:outline-none';
+            button.setAttribute('aria-expanded', 'false');
+
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'flex items-center space-x-4';
+            titleDiv.innerHTML = item.icon;
+            const titleSpan = document.createElement('span');
+            titleSpan.textContent = item.title;
+            titleDiv.appendChild(titleSpan);
+
+            const chevronIcon = document.createElement('div');
+            chevronIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>`;
+            
+            button.appendChild(titleDiv);
+            button.appendChild(chevronIcon);
+
+            const contentDiv = document.createElement('div');
+            contentDiv.id = `content-${item.id}`;
+            contentDiv.className = 'accordion-content bg-gray-50';
+            
+            button.addEventListener('click', () => {
+                const isExpanded = button.getAttribute('aria-expanded') === 'true';
+                button.setAttribute('aria-expanded', !isExpanded);
+                button.classList.toggle('open');
+                contentDiv.classList.toggle('open');
+                contentDiv.style.maxHeight = !isExpanded ? contentDiv.scrollHeight + 'px' : '0px';
+            });
+
+            itemDiv.appendChild(button);
+            itemDiv.appendChild(contentDiv);
+            return { itemDiv, contentDiv };
+        }
+
+        function renderResources() {
+            const container = document.getElementById('resources-container');
+            if (!container) return;
+            container.innerHTML = ''; 
+
+            resources.forEach((resource) => {
+                const { itemDiv, contentDiv } = createAccordionItem(resource);
+                
+                const contentPadding = document.createElement('div');
+                contentPadding.className = 'p-6 border-t border-gray-200';
+                
+                const groupedContent = resource.content.reduce((acc, item) => {
+                    const category = item.category || 'General';
+                    if (!acc[category]) acc[category] = [];
+                    acc[category].push(item);
+                    return acc;
+                }, {});
+
+                Object.keys(groupedContent).forEach(category => {
+                    if (resource.content.some(item => item.category)) {
+                        const categoryTitle = document.createElement('h4');
+                        categoryTitle.className = 'text-lg font-semibold text-gray-800 mb-3 mt-4 first:mt-0';
+                        categoryTitle.textContent = category;
+                        contentPadding.appendChild(categoryTitle);
+                    }
+
+                    const ul = document.createElement('ul');
+                    ul.className = 'space-y-4';
+                    
+                    groupedContent[category].forEach(item => {
+                        const li = document.createElement('li');
+                        li.className = 'flex flex-col';
+                        const nameSpan = document.createElement('span');
+                        nameSpan.className = 'font-bold text-gray-800';
+                        nameSpan.textContent = item.name;
+                        
+                        const descSpan = document.createElement('span');
+                        descSpan.className = 'text-gray-600 mt-1';
+                        
+                        if (item.syntax) {
+                            const syntaxCode = document.createElement('code');
+                            syntaxCode.className = 'text-sm bg-gray-200 text-indigo-700 rounded px-2 py-1 mr-2';
+                            syntaxCode.textContent = item.syntax;
+                            nameSpan.appendChild(syntaxCode);
+                        }
+                        
+                        descSpan.textContent = item.description;
+                        li.appendChild(nameSpan);
+                        li.appendChild(descSpan);
+                        ul.appendChild(li);
+                    });
+                    contentPadding.appendChild(ul);
+                });
+
+                contentDiv.appendChild(contentPadding);
+                container.appendChild(itemDiv);
+            });
+        }
+        
+        function renderCaseStudies() {
+            const container = document.getElementById('case-studies-container');
+            if (!container) return;
+            container.innerHTML = ''; 
+
+            caseStudies.forEach(study => {
+                const { itemDiv, contentDiv } = createAccordionItem(study, true);
+                
+                const contentPadding = document.createElement('div');
+                contentPadding.className = 'p-6 border-t border-gray-200 md:grid md:grid-cols-2 md:gap-8 items-center';
+
+                const descriptionDiv = document.createElement('div');
+                descriptionDiv.className = 'text-gray-600 space-y-2';
+                descriptionDiv.innerHTML = study.description;
+
+                const imageContainer = document.createElement('div');
+                imageContainer.className = 'mt-6 md:mt-0 flex items-center justify-center';
+                const image = document.createElement('img');
+                image.src = study.imageUrl;
+                image.alt = study.title;
+                image.className = 'rounded-lg shadow-sm max-h-80 object-contain cursor-pointer transition-transform duration-300 hover:scale-105';
+                imageContainer.appendChild(image);
+                
+                contentPadding.appendChild(descriptionDiv);
+                contentPadding.appendChild(imageContainer);
+                contentDiv.appendChild(contentPadding);
+                container.appendChild(itemDiv);
+            });
+        }
+        
+        function setupLightbox() {
+            const lightbox = document.getElementById('image-lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            const closeBtn = document.querySelector('.lightbox-close');
+
+            document.addEventListener('click', function (e) {
+                if (e.target.tagName === 'IMG' && e.target.closest('#case-studies-container')) {
+                    lightbox.style.display = "flex";
+                    lightboxImg.src = e.target.src;
+                }
+            });
+
+            closeBtn.onclick = function() {
+                lightbox.style.display = "none";
+            }
+
+            lightbox.onclick = function(e) {
+                if (e.target === lightbox) {
+                    lightbox.style.display = "none";
+                }
+            }
+        }
+    </script>
+
+</body>
+</html>
