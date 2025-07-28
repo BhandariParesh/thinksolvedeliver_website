@@ -1,0 +1,159 @@
+// --- DATA SOURCE ---
+// To add a new resource or case study, simply add a new object to the corresponding array.
+// The page will automatically render it.
+
+const resources = [
+    {
+        id: 'shortcuts',
+        title: 'Top 30 Essential Excel Shortcuts',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H5v-2H3v-2H1v-4a1 1 0 011-1h2.157a6 6 0 016.343-5.343z" /></svg>`,
+        content: [
+            // Navigation & Selection
+            { category: 'Navigation & Selection', name: 'Ctrl + Arrow Keys', description: 'Jump to the edge of the current data region.' },
+            { category: 'Navigation & Selection', name: 'Ctrl + Shift + Arrow Keys', description: 'Select all cells from the current cell to the edge of the data.' },
+            { category: 'Navigation & Selection', name: 'Ctrl + Home / End', description: 'Move to the beginning of the worksheet (A1) or the last used cell.' },
+            { category: 'Navigation & Selection', name: 'Ctrl + PageUp / PageDown', description: 'Switch to the previous or next worksheet.' },
+            { category: 'Navigation & Selection', name: 'Ctrl + Spacebar', description: 'Select the entire column of the active cell.' },
+            { category: 'Navigation & Selection', name: 'Shift + Spacebar', description: 'Select the entire row of the active cell.' },
+            { category: 'Navigation & Selection', name: 'Ctrl + A', description: 'Select the current region or the entire worksheet.' },
+            
+            // Data Entry & Editing
+            { category: 'Data Entry & Editing', name: 'F2', description: 'Edit the active cell and position the cursor at the end of the content.' },
+            { category: 'Data Entry & Editing', name: 'Ctrl + D', description: 'Fill down. Copies the content and format from the cell above.' },
+            { category: 'Data Entry & Editing', name: 'Ctrl + R', description: 'Fill right. Copies the content and format from the cell to the left.' },
+            { category: 'Data Entry & Editing', name: 'Ctrl + E', description: 'Flash Fill. Automatically fills values based on an adjacent pattern.' },
+            { category: 'Data Entry & Editing', name: 'Ctrl + ;', description: 'Insert the current date.' },
+            { category: 'Data Entry & Editing', name: 'Ctrl + Shift + :', description: 'Insert the current time.' },
+            { category: 'Data Entry & Editing', name: 'Ctrl + Enter', description: 'Fill the selected cell range with the current entry.' },
+
+            // Formatting
+            { category: 'Formatting', name: 'Ctrl + 1', description: 'Open the Format Cells dialog box.' },
+            { category: 'Formatting', name: 'Ctrl + B', description: 'Apply or remove bold formatting.' },
+            { category: 'Formatting', name: 'Ctrl + I', description: 'Apply or remove italic formatting.' },
+            { category: 'Formatting', name: 'Ctrl + U', 'description': 'Apply or remove underlining.' },
+            { category: 'Formatting', name: 'Ctrl + Shift + $', description: 'Apply the Currency format with two decimal places.' },
+            { category: 'Formatting', name: 'Ctrl + Shift + %', description: 'Apply the Percentage format with no decimal places.' },
+
+            // Formulas & Auditing
+            { category: 'Formulas & Auditing', name: 'Alt + =', description: 'AutoSum. Automatically inserts a SUM formula.' },
+            { category: 'Formulas & Auditing', name: 'F4', description: 'Toggle between absolute, mixed, and relative cell references in a formula.' },
+            { category: 'Formulas & Auditing', name: 'Ctrl + ` (Backtick)', description: 'Toggle the display of cell values and formulas in the worksheet.' },
+            { category: 'Formulas & Auditing', name: 'Shift + F3', description: 'Open the Insert Function dialog box.' },
+
+            // General Productivity
+            { category: 'General Productivity', name: 'Ctrl + T', description: 'Create a Table from a range of data.' },
+            { category: 'General Productivity', name: 'Ctrl + Shift + L', description: 'Toggle the AutoFilter on or off for a data range.' },
+            { category: 'General Productivity', name: 'Alt + N, V', description: 'Create a PivotTable.' },
+            { category: 'General Productivity', name: 'F11', description: 'Create a chart of the data in a new chart sheet.' },
+            { category: 'General Productivity', name: 'Alt + F1', description: 'Create an embedded chart of the data in the current sheet.' },
+            { category: 'General Productivity', name: 'Ctrl + Z / Ctrl + Y', description: 'Undo or Redo the last action.' },
+        ]
+    },
+    {
+        id: 'formulas',
+        title: 'Essential Excel Formulas Cheat Sheet',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h3m-3-10h.01M9 17h.01M12 17h.01M15 17h.01M9 14h.01M12 14h.01M15 14h.01M4 7h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1z" /></svg>`,
+        content: [
+            { name: 'SUM', syntax: '=SUM(range)', description: 'Adds all numbers in a specified range of cells.' },
+            { name: 'AVERAGE', syntax: '=AVERAGE(range)', description: 'Calculates the average (arithmetic mean) of numbers in a range.' },
+            { name: 'COUNT', syntax: '=COUNT(range)', description: 'Counts the number of cells that contain numbers.' },
+            { name: 'COUNTA', syntax: '=COUNTA(range)', description: 'Counts the number of non-empty cells.' },
+            { name: 'IF', syntax: '=IF(logical_test, value_if_true, value_if_false)', description: 'Returns one value if a condition is true and another value if it\'s false.' },
+            { name: 'XLOOKUP', syntax: '=XLOOKUP(lookup_value, lookup_array, return_array)', description: 'A modern, flexible replacement for VLOOKUP.' },
+            { name: 'SUMIF', syntax: '=SUMIF(range, criteria, [sum_range])', description: 'Adds cells specified by a given condition or criteria.' },
+            { name: 'COUNTIF', syntax: '=COUNTIF(range, criteria)', description: 'Counts the number of cells within a range that meet a single criterion.' },
+        ]
+    },
+    {
+        id: 'formatting',
+        title: 'Excel Formatting Best Practices',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>`,
+        content: [
+            { name: 'Use Tables (Ctrl+T)', description: 'Provides structured referencing, easy formatting, and automatic formula fill-down.' },
+            { name: 'Consistent Fonts & Colors', description: 'Use a maximum of two fonts. Use color purposefully to highlight information, not just for decoration.' },
+            { name: 'Proper Number Formatting', description: 'Use built-in formats for dates, currency, and percentages. Avoid storing numbers as text.' },
+            { name: 'Conditional Formatting', description: 'Apply formatting based on cell values to visually highlight trends, outliers, or important data points.' },
+            { name: 'Avoid Merged Cells', description: 'Use "Center Across Selection" instead for horizontal centering to avoid issues with sorting and filtering.' },
+        ]
+    },
+    {
+        id: 'integrity',
+        title: 'Data Integrity & Quality Checks',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+        content: [
+            { name: 'Data Validation', description: 'Restrict data entry in cells to specific types or values (e.g., a list, date range) to prevent errors.' },
+            { name: 'Remove Duplicates', description: 'Use the built-in "Remove Duplicates" tool to clean datasets of redundant entries.' },
+            { name: 'Error Checking Formulas', description: 'Use =IFERROR() to catch and handle errors gracefully instead of displaying #N/A, #VALUE!, etc.' },
+            { name: 'Protect Sheets/Workbooks', description: 'Protect cells containing important formulas from accidental changes.' },
+        ]
+    },
+    {
+        id: 'ai_prompts',
+        title: 'Effective AI Prompts for Excel Users',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>`,
+        content: [
+            { name: 'Formula Generation', description: 'Provide clear cell references and desired logic. Example: "Write an Excel formula for cell C2 that returns \'High\' if B2 is greater than 1000, \'Medium\' if B2 is between 500 and 1000, and \'Low\' otherwise."' },
+            { name: 'VBA Scripting', description: 'Describe the action step-by-step. Example: "Write a VBA macro that loops through all sheets in the workbook and copies range A1:F10 into the \'Master\' sheet."' },
+            { name: 'Data Cleaning Steps', description: 'Paste a sample of your messy data and describe the desired outcome. Example: "Here is some data: [\'John Doe (Sales)\']. I need a formula to extract the name into one column and the department into another."' },
+            { name: 'Complex Function Explanation', description: 'Ask for a breakdown of a complex formula. Example: "Explain this formula in simple terms: =INDEX(A:A, AGGREGATE(15, 6, ROW(A2:A100)/(B2:B100=\"Apples\"), 1))"' },
+        ]
+    }
+];
+
+const caseStudies = [
+    {
+        id: 'case1',
+        title: 'Flagging Non-Sequential & Incorrectly Ordered Roll Numbers',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>`,
+        imageUrl: 'images/case1.png',
+        description: `
+            <p><strong>Illustrative Data:</strong> The table includes roll numbers with branch codes (CV, EC, MN, ME).</p>
+            <p><strong>Problem Statement:</strong> Using a single Excel formula, you need to solve two challenges:</p>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li><strong>Q1.</strong> Flag roll numbers within a specific branch that are not in sequential order.</li>
+                <li><strong>Q2.</strong> Flag roll numbers in the entire list that are not in the user-provided order for branches (e.g., CV, EC, MN, ME...).</li>
+            </ul>
+        `
+    },
+    {
+        id: 'case2',
+        title: 'Identifying the Last Blank Cell in a Column',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 10l.01.01" /></svg>`,
+        imageUrl: 'images/case2.png',
+        description: `
+            <p><strong>Illustrative Data:</strong> A table with 10k+ rows and 100+ columns of student data. Some columns may have blank cells.</p>
+            <p><strong>Problem Statement:</strong> Using a single Excel formula, identify the row number of the <strong>last blank cell</strong> in a given column.</p>
+        `
+    },
+    {
+        id: 'case3',
+        title: 'Analyzing Student Performance Improvement',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>`,
+        imageUrl: 'images/case3.png',
+        description: `
+            <p><strong>Illustrative Data:</strong> A table with student roll numbers and the marks they received in 7 different assignments (out of 10).</p>
+            <p><strong>Problem Statement:</strong> The Dean wants to understand if students are improving. In a limited number of steps (using Excel, SQL, Tableau, or Python), identify the number of assignments in which students have improved their performance from the previous assignment.</p>
+        `
+    },
+    {
+        id: 'case4',
+        title: 'Dynamic Daily Quota Allocation',
+        icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>`,
+        imageUrl: 'images/case4.png',
+        description: `
+            <p><strong>Client Situation:</strong> We need to divide monthly rep quotas into daily quotas based on specific logic:</p>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Daily quota cannot exceed a threshold (e.g., 70 for role A, 50 for B, 30 for C).</li>
+                <li>Total daily quota assigned should equal the monthly quota.</li>
+                <li>Weekends and office holidays should not have any quota.</li>
+            </ul>
+            <p class="mt-2"><strong>Problem Statement:</strong></p>
+            <ul class="list-disc pl-5 mt-2 space-y-1">
+                <li>Write a generic formula to assign the daily quota for each day based on the logic.</li>
+                <li>Highlight cases where the daily quota achieved is <80% of what was assigned.</li>
+                <li>Highlight cases where the monthly quota cannot be achieved or the number of days required increases by 5.</li>
+            </ul>
+        `
+    }
+    // To add a new case study, copy the object above, paste it here, and change the values.
+];
