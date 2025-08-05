@@ -24,7 +24,6 @@
         .accordion-button.open svg {
             transform: rotate(180deg);
         }
-<<<<<<< HEAD
         /* Lightbox styles */
         .lightbox {
             display: none;
@@ -56,8 +55,6 @@
             transition: 0.3s;
             cursor: pointer;
         }
-=======
->>>>>>> c715056 (Initial commit)
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800">
@@ -65,76 +62,51 @@
     <div class="container mx-auto px-4 py-8 md:py-12">
         <header class="text-center mb-10">
             <div class="flex justify-center items-center gap-4">
-<<<<<<< HEAD
+                <!-- Image path points to the local images folder -->
                 <img src="images/logo.jpg" alt="ThinkSolveDeliver Logo" class="h-12 w-auto">
-=======
-                <img src="https://i.imgur.com/ODt3Y2W.jpg" alt="ThinkSolveDeliver Logo" class="h-12 w-auto">
->>>>>>> c715056 (Initial commit)
                 <h1 class="text-4xl md:text-5xl font-bold text-gray-900">ThinkSolveDeliver</h1>
             </div>
             <p class="mt-4 text-lg text-gray-600">Your one-stop collection of essential Excel resources, case studies, and AI-powered tips.</p>
         </header>
 
-<<<<<<< HEAD
+        <!-- Resources Section -->
         <main class="max-w-4xl mx-auto space-y-4">
              <h2 class="text-3xl font-bold text-center text-gray-800 mb-6 mt-12">Resource Library</h2>
              <div id="resources-container" class="space-y-4">
-                </div>
-        </main>
-        
-        <section class="max-w-4xl mx-auto mt-16">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">Case Studies & Problems</h2>
-            <div id="case-studies-container" class="space-y-4">
-                </div>
-=======
-        <!-- Resources Section -->
-        <main id="resources-container" class="max-w-4xl mx-auto space-y-4">
-             <h2 class="text-3xl font-bold text-center text-gray-800 mb-6 mt-12">Resource Library</h2>
-            <!-- Resources will be dynamically inserted here -->
+                <!-- Resources will be dynamically inserted here by the script -->
+             </div>
         </main>
         
         <!-- Case Studies Section -->
-        <section id="case-studies-section" class="max-w-4xl mx-auto mt-16">
+        <section class="max-w-4xl mx-auto mt-16">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">Case Studies & Problems</h2>
-            <div id="case-studies-container" class="space-y-8">
-                <!-- Case studies will be dynamically inserted here -->
+            <div id="case-studies-container" class="space-y-4">
+                <!-- Case studies will now be inserted here as accordions by the script -->
             </div>
->>>>>>> c715056 (Initial commit)
         </section>
         
         <footer class="text-center mt-16 pt-8 border-t border-gray-200 text-gray-500">
              <p class="font-semibold text-gray-600">© ThinkSolveDeliver team</p>
-<<<<<<< HEAD
              <p class="mt-1">For more details contact <a href="mailto:hello@thinksolvedeliver.com" class="text-indigo-600 hover:underline">hello@thinksolvedeliver.com</a></p>
-             <p class="text-sm mt-1">(Note: Please confirm this is the correct email address)</p>
         </footer>
     </div>
 
+    <!-- Lightbox Modal Structure -->
     <div id="image-lightbox" class="lightbox">
         <span class="lightbox-close">&times;</span>
         <img class="lightbox-content" id="lightbox-img">
     </div>
 
 
-    <script src="data.js"></script>
-    <script>
-=======
-             <p class="mt-1">For more details contact <a href="mailto:thinksolvedeliver@gmail.com" class="text-indigo-600 hover:underline">paresh.m.bhandari@gmail.com</a></p>
-        </footer>
-    </div>
-
     <script>
         // --- DATA SOURCE ---
-        // To add a new resource or case study, simply add a new object to the corresponding array.
-        // The page will automatically render it.
-
+        // Data is now embedded directly in the HTML to prevent loading errors.
         const resources = [
             {
                 id: 'shortcuts',
                 title: 'Top 30 Essential Excel Shortcuts',
                 icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H5v-2H3v-2H1v-4a1 1 0 011-1h2.157a6 6 0 016.343-5.343z" /></svg>`,
                 content: [
-                    // Navigation & Selection
                     { category: 'Navigation & Selection', name: 'Ctrl + Arrow Keys', description: 'Jump to the edge of the current data region.' },
                     { category: 'Navigation & Selection', name: 'Ctrl + Shift + Arrow Keys', description: 'Select all cells from the current cell to the edge of the data.' },
                     { category: 'Navigation & Selection', name: 'Ctrl + Home / End', description: 'Move to the beginning of the worksheet (A1) or the last used cell.' },
@@ -142,8 +114,6 @@
                     { category: 'Navigation & Selection', name: 'Ctrl + Spacebar', description: 'Select the entire column of the active cell.' },
                     { category: 'Navigation & Selection', name: 'Shift + Spacebar', description: 'Select the entire row of the active cell.' },
                     { category: 'Navigation & Selection', name: 'Ctrl + A', description: 'Select the current region or the entire worksheet.' },
-                    
-                    // Data Entry & Editing
                     { category: 'Data Entry & Editing', name: 'F2', description: 'Edit the active cell and position the cursor at the end of the content.' },
                     { category: 'Data Entry & Editing', name: 'Ctrl + D', description: 'Fill down. Copies the content and format from the cell above.' },
                     { category: 'Data Entry & Editing', name: 'Ctrl + R', description: 'Fill right. Copies the content and format from the cell to the left.' },
@@ -151,22 +121,16 @@
                     { category: 'Data Entry & Editing', name: 'Ctrl + ;', description: 'Insert the current date.' },
                     { category: 'Data Entry & Editing', name: 'Ctrl + Shift + :', description: 'Insert the current time.' },
                     { category: 'Data Entry & Editing', name: 'Ctrl + Enter', description: 'Fill the selected cell range with the current entry.' },
-
-                    // Formatting
                     { category: 'Formatting', name: 'Ctrl + 1', description: 'Open the Format Cells dialog box.' },
                     { category: 'Formatting', name: 'Ctrl + B', description: 'Apply or remove bold formatting.' },
                     { category: 'Formatting', name: 'Ctrl + I', description: 'Apply or remove italic formatting.' },
                     { category: 'Formatting', name: 'Ctrl + U', 'description': 'Apply or remove underlining.' },
                     { category: 'Formatting', name: 'Ctrl + Shift + $', description: 'Apply the Currency format with two decimal places.' },
                     { category: 'Formatting', name: 'Ctrl + Shift + %', description: 'Apply the Percentage format with no decimal places.' },
-
-                    // Formulas & Auditing
                     { category: 'Formulas & Auditing', name: 'Alt + =', description: 'AutoSum. Automatically inserts a SUM formula.' },
                     { category: 'Formulas & Auditing', name: 'F4', description: 'Toggle between absolute, mixed, and relative cell references in a formula.' },
                     { category: 'Formulas & Auditing', name: 'Ctrl + ` (Backtick)', description: 'Toggle the display of cell values and formulas in the worksheet.' },
                     { category: 'Formulas & Auditing', name: 'Shift + F3', description: 'Open the Insert Function dialog box.' },
-
-                    // General Productivity
                     { category: 'General Productivity', name: 'Ctrl + T', description: 'Create a Table from a range of data.' },
                     { category: 'General Productivity', name: 'Ctrl + Shift + L', description: 'Toggle the AutoFilter on or off for a data range.' },
                     { category: 'General Productivity', name: 'Alt + N, V', description: 'Create a PivotTable.' },
@@ -205,7 +169,7 @@
             {
                 id: 'integrity',
                 title: 'Data Integrity & Quality Checks',
-                icon: `<svg xmlns="http://www.w.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
                 content: [
                     { name: 'Data Validation', description: 'Restrict data entry in cells to specific types or values (e.g., a list, date range) to prevent errors.' },
                     { name: 'Remove Duplicates', description: 'Use the built-in "Remove Duplicates" tool to clean datasets of redundant entries.' },
@@ -230,11 +194,12 @@
             {
                 id: 'case1',
                 title: 'Flagging Non-Sequential & Incorrectly Ordered Roll Numbers',
-                imageUrl: 'https://i.imgur.com/zO5i2iL.png',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>`,
+                imageUrl: 'images/case1.png',
                 description: `
                     <p><strong>Illustrative Data:</strong> The table includes roll numbers with branch codes (CV, EC, MN, ME).</p>
                     <p><strong>Problem Statement:</strong> Using a single Excel formula, you need to solve two challenges:</p>
-                    <ul class="list-disc pl-5 mt-2">
+                    <ul class="list-disc pl-5 mt-2 space-y-1">
                         <li><strong>Q1.</strong> Flag roll numbers within a specific branch that are not in sequential order.</li>
                         <li><strong>Q2.</strong> Flag roll numbers in the entire list that are not in the user-provided order for branches (e.g., CV, EC, MN, ME...).</li>
                     </ul>
@@ -243,7 +208,8 @@
             {
                 id: 'case2',
                 title: 'Identifying the Last Blank Cell in a Column',
-                imageUrl: 'https://i.imgur.com/gajxLpl.png',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 10l.01.01" /></svg>`,
+                imageUrl: 'images/case2.png',
                 description: `
                     <p><strong>Illustrative Data:</strong> A table with 10k+ rows and 100+ columns of student data. Some columns may have blank cells.</p>
                     <p><strong>Problem Statement:</strong> Using a single Excel formula, identify the row number of the <strong>last blank cell</strong> in a given column.</p>
@@ -252,7 +218,8 @@
             {
                 id: 'case3',
                 title: 'Analyzing Student Performance Improvement',
-                imageUrl: 'https://i.imgur.com/fCqf2Yj.png',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>`,
+                imageUrl: 'images/case3.png',
                 description: `
                     <p><strong>Illustrative Data:</strong> A table with student roll numbers and the marks they received in 7 different assignments (out of 10).</p>
                     <p><strong>Problem Statement:</strong> The Dean wants to understand if students are improving. In a limited number of steps (using Excel, SQL, Tableau, or Python), identify the number of assignments in which students have improved their performance from the previous assignment.</p>
@@ -261,32 +228,29 @@
             {
                 id: 'case4',
                 title: 'Dynamic Daily Quota Allocation',
-                imageUrl: 'https://i.imgur.com/L4pIK4w.png',
+                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>`,
+                imageUrl: 'images/case4.png',
                 description: `
                     <p><strong>Client Situation:</strong> We need to divide monthly rep quotas into daily quotas based on specific logic:</p>
-                    <ul class="list-disc pl-5 mt-2">
+                    <ul class="list-disc pl-5 mt-2 space-y-1">
                         <li>Daily quota cannot exceed a threshold (e.g., 70 for role A, 50 for B, 30 for C).</li>
                         <li>Total daily quota assigned should equal the monthly quota.</li>
                         <li>Weekends and office holidays should not have any quota.</li>
                     </ul>
-                    <p><strong>Problem Statement:</strong></p>
-                    <ul class="list-disc pl-5 mt-2">
+                    <p class="mt-2"><strong>Problem Statement:</strong></p>
+                    <ul class="list-disc pl-5 mt-2 space-y-1">
                         <li>Write a generic formula to assign the daily quota for each day based on the logic.</li>
                         <li>Highlight cases where the daily quota achieved is <80% of what was assigned.</li>
                         <li>Highlight cases where the monthly quota cannot be achieved or the number of days required increases by 5.</li>
                     </ul>
                 `
             }
-            // To add a new case study, copy the object above, paste it here, and change the values.
         ];
 
-
->>>>>>> c715056 (Initial commit)
         // --- RENDER FUNCTIONS ---
         document.addEventListener('DOMContentLoaded', () => {
             renderResources();
             renderCaseStudies();
-<<<<<<< HEAD
             setupLightbox();
         });
 
@@ -336,68 +300,20 @@
 
             resources.forEach((resource) => {
                 const { itemDiv, contentDiv } = createAccordionItem(resource);
-=======
-        });
-
-        function renderResources() {
-            const container = document.getElementById('resources-container');
-            if (!container) return;
-            container.innerHTML = ''; // Clear placeholder
-
-            resources.forEach((resource) => {
-                const itemDiv = document.createElement('div');
-                itemDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
-                itemDiv.id = `resource-${resource.id}`;
-
-                const button = document.createElement('button');
-                button.className = 'accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg text-gray-700 hover:bg-gray-100 focus:outline-none';
-                button.setAttribute('aria-expanded', 'false');
-                button.setAttribute('aria-controls', `content-${resource.id}`);
-                
-                const titleDiv = document.createElement('div');
-                titleDiv.className = 'flex items-center space-x-4';
-                titleDiv.innerHTML = resource.icon;
-                const titleSpan = document.createElement('span');
-                titleSpan.textContent = resource.title;
-                titleDiv.appendChild(titleSpan);
-
-                const chevronIcon = document.createElement('div');
-                chevronIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>`;
-                
-                button.appendChild(titleDiv);
-                button.appendChild(chevronIcon);
-
-                const contentDiv = document.createElement('div');
-                contentDiv.id = `content-${resource.id}`;
-                contentDiv.className = 'accordion-content bg-gray-50';
->>>>>>> c715056 (Initial commit)
                 
                 const contentPadding = document.createElement('div');
                 contentPadding.className = 'p-6 border-t border-gray-200';
                 
-<<<<<<< HEAD
                 const groupedContent = resource.content.reduce((acc, item) => {
                     const category = item.category || 'General';
                     if (!acc[category]) acc[category] = [];
-=======
-                // Group content by category if category exists
-                const groupedContent = resource.content.reduce((acc, item) => {
-                    const category = item.category || 'General';
-                    if (!acc[category]) {
-                        acc[category] = [];
-                    }
->>>>>>> c715056 (Initial commit)
                     acc[category].push(item);
                     return acc;
                 }, {});
 
                 Object.keys(groupedContent).forEach(category => {
                     if (resource.content.some(item => item.category)) {
-<<<<<<< HEAD
                         const categoryTitle = document.createElement('h4');
-=======
-                         const categoryTitle = document.createElement('h4');
->>>>>>> c715056 (Initial commit)
                         categoryTitle.className = 'text-lg font-semibold text-gray-800 mb-3 mt-4 first:mt-0';
                         categoryTitle.textContent = category;
                         contentPadding.appendChild(categoryTitle);
@@ -409,10 +325,6 @@
                     groupedContent[category].forEach(item => {
                         const li = document.createElement('li');
                         li.className = 'flex flex-col';
-<<<<<<< HEAD
-=======
-                        
->>>>>>> c715056 (Initial commit)
                         const nameSpan = document.createElement('span');
                         nameSpan.className = 'font-bold text-gray-800';
                         nameSpan.textContent = item.name;
@@ -428,10 +340,6 @@
                         }
                         
                         descSpan.textContent = item.description;
-<<<<<<< HEAD
-=======
-
->>>>>>> c715056 (Initial commit)
                         li.appendChild(nameSpan);
                         li.appendChild(descSpan);
                         ul.appendChild(li);
@@ -440,32 +348,13 @@
                 });
 
                 contentDiv.appendChild(contentPadding);
-<<<<<<< HEAD
                 container.appendChild(itemDiv);
-=======
-                itemDiv.appendChild(button);
-                itemDiv.appendChild(contentDiv);
-                container.appendChild(itemDiv);
-
-                button.addEventListener('click', () => {
-                    const isExpanded = button.getAttribute('aria-expanded') === 'true';
-                    button.setAttribute('aria-expanded', !isExpanded);
-                    button.classList.toggle('open');
-                    contentDiv.classList.toggle('open');
-                    if (!isExpanded) {
-                        contentDiv.style.maxHeight = contentDiv.scrollHeight + 'px';
-                    } else {
-                        contentDiv.style.maxHeight = '0px';
-                    }
-                });
->>>>>>> c715056 (Initial commit)
             });
         }
         
         function renderCaseStudies() {
             const container = document.getElementById('case-studies-container');
             if (!container) return;
-<<<<<<< HEAD
             container.innerHTML = ''; 
 
             caseStudies.forEach(study => {
@@ -515,28 +404,6 @@
                 }
             }
         }
-=======
-            container.innerHTML = ''; // Clear container
-
-            caseStudies.forEach(study => {
-                const studyDiv = document.createElement('div');
-                studyDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
-                
-                studyDiv.innerHTML = `
-                    <div class="md:grid md:grid-cols-2 md:gap-6">
-                        <div class="p-4 md:p-6">
-                            <h3 class="text-xl font-bold text-gray-900 mb-3">${study.title}</h3>
-                            <div class="text-gray-600 space-y-2">${study.description}</div>
-                        </div>
-                        <div class="p-4 flex items-center justify-center bg-gray-100">
-                            <img src="${study.imageUrl}" alt="${study.title}" class="rounded-lg shadow-sm max-h-80 object-contain">
-                        </div>
-                    </div>
-                `;
-                container.appendChild(studyDiv);
-            });
-        }
->>>>>>> c715056 (Initial commit)
     </script>
 
 </body>
