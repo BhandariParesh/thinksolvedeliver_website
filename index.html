@@ -1,410 +1,1045 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ThinkSolveDeliver - Excel Resources</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-        }
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.5s cubic-bezier(0, 1, 0, 1);
-        }
-        .accordion-content.open {
-            transition: max-height 1s ease-in-out;
-        }
-        .accordion-button svg {
-            transition: transform 0.3s ease-in-out;
-        }
-        .accordion-button.open svg {
-            transform: rotate(180deg);
-        }
-        /* Lightbox styles */
-        .lightbox {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.9);
-            justify-content: center;
-            align-items: center;
-        }
-        .lightbox-content {
-            margin: auto;
-            display: block;
-            width: 90%;
-            max-width: 900px;
-            max-height: 90vh;
-        }
-        .lightbox-close {
-            position: absolute;
-            top: 15px;
-            right: 35px;
-            color: #f1f1f1;
-            font-size: 40px;
-            font-weight: bold;
-            transition: 0.3s;
-            cursor: pointer;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ThinkSolveDeliver — Corporate Trainer & Capability Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink:    #1a1f2e;
+    --ink2:   #2d3448;
+    --cream:  #f7f4ef;
+    --warm:   #f0ebe0;
+    --teal:   #0d7377;
+    --teal2:  #14a8a4;
+    --teal-light: #e8f5f5;
+    --gold:   #c07d2f;
+    --gold-light: #fdf3e3;
+    --mid:    #5c6878;
+    --light:  #fafaf8;
+    --border: rgba(0,0,0,0.08);
+    --serif:  'Playfair Display', Georgia, serif;
+    --sans:   'Outfit', system-ui, sans-serif;
+    --mono:   'JetBrains Mono', monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; font-size: 16px; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 4rem;
+    height: 64px;
+    background: rgba(26,31,46,0.97);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(13,115,119,0.25);
+    transition: all 0.3s;
+  }
+  .nav-logo {
+    font-family: var(--mono);
+    font-size: 0.78rem;
+    color: var(--teal2);
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    display: flex; align-items: center; gap: 0.2rem;
+  }
+  .nav-logo .dot { color: var(--gold); }
+  .nav-tabs {
+    display: flex; gap: 0; list-style: none;
+  }
+  .nav-tabs li a {
+    display: block;
+    padding: 0 1.4rem;
+    height: 64px; line-height: 64px;
+    font-size: 0.75rem; font-weight: 500;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    transition: color 0.2s, border-bottom 0.2s;
+    border-bottom: 2px solid transparent;
+    position: relative;
+  }
+  .nav-tabs li a:hover,
+  .nav-tabs li a.active {
+    color: var(--teal2);
+    border-bottom-color: var(--teal2);
+  }
+  .nav-cta {
+    font-family: var(--mono);
+    font-size: 0.7rem; letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink) !important;
+    background: var(--teal2);
+    padding: 0.45rem 1.2rem !important;
+    height: auto !important; line-height: 1.5 !important;
+    border-bottom: none !important;
+    margin-left: 1rem;
+    transition: background 0.2s !important;
+  }
+  .nav-cta:hover { background: var(--teal) !important; color: #fff !important; }
+
+  /* ── PAGES ── */
+  .page { display: none; min-height: 100vh; padding-top: 64px; }
+  .page.active { display: block; }
+
+  /* ── HERO PAGE ── */
+  #page-home {}
+  .hero {
+    background: var(--ink);
+    min-height: calc(100vh - 64px);
+    display: grid;
+    grid-template-columns: 55% 45%;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-texture {
+    position: absolute; inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 50%, rgba(13,115,119,0.12) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(192,125,47,0.06) 0%, transparent 40%),
+      linear-gradient(rgba(13,115,119,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(13,115,119,0.04) 1px, transparent 1px);
+    background-size: 100% 100%, 100% 100%, 72px 72px, 72px 72px;
+    animation: subtleShift 30s ease-in-out infinite alternate;
+  }
+  @keyframes subtleShift {
+    from { opacity: 0.8; }
+    to { opacity: 1; }
+  }
+  .hero-left {
+    padding: 5rem 4rem 5rem 5rem;
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 0.68rem; letter-spacing: 0.22em;
+    color: var(--teal2); text-transform: uppercase;
+    margin-bottom: 2rem;
+    display: flex; align-items: center; gap: 0.8rem;
+    opacity: 0; animation: fadeUp 0.7s 0.1s both;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 28px; height: 1px; background: var(--teal2);
+  }
+  .hero-headline {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 4vw, 3.6rem);
+    color: #fff; line-height: 1.15;
+    margin-bottom: 1.8rem;
+    opacity: 0; animation: fadeUp 0.7s 0.2s both;
+  }
+  .hero-headline em { color: var(--teal2); font-style: italic; }
+  .hero-sub {
+    font-size: 1rem; line-height: 1.8;
+    color: rgba(255,255,255,0.55);
+    max-width: 460px; margin-bottom: 3rem;
+    font-weight: 300;
+    opacity: 0; animation: fadeUp 0.7s 0.3s both;
+  }
+  .hero-sub strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    padding: 0.85rem 2rem;
+    background: var(--teal);
+    color: #fff; font-size: 0.82rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    text-decoration: none; border: none; cursor: pointer;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    transition: background 0.2s, transform 0.15s;
+    opacity: 0; animation: fadeUp 0.7s 0.4s both;
+  }
+  .btn-primary:hover { background: var(--teal2); transform: translateY(-2px); }
+  .hero-right {
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column;
+    border-left: 1px solid rgba(13,115,119,0.2);
+    opacity: 0; animation: fadeUp 0.7s 0.3s both;
+  }
+  .stat-card {
+    flex: 1;
+    padding: 2rem 2.5rem;
+    border-bottom: 1px solid rgba(13,115,119,0.15);
+    display: flex; align-items: center; gap: 1.5rem;
+    transition: background 0.3s;
+  }
+  .stat-card:last-child { border-bottom: none; }
+  .stat-card:hover { background: rgba(13,115,119,0.06); }
+  .stat-num {
+    font-family: var(--serif); font-size: 2.8rem;
+    color: var(--teal2); line-height: 1; min-width: 80px;
+  }
+  .stat-text strong {
+    display: block; font-size: 0.88rem;
+    color: rgba(255,255,255,0.8); font-weight: 500; margin-bottom: 0.2rem;
+  }
+  .stat-text span { font-size: 0.78rem; color: rgba(255,255,255,0.4); font-weight: 300; }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── CONTENT SECTIONS ── */
+  .section { padding: 5rem 0; }
+  .section-alt { background: var(--light); }
+  .section-dark { background: var(--ink2); }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 2.5rem; }
+  .section-label {
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--teal); display: flex; align-items: center; gap: 0.7rem;
+    margin-bottom: 1rem;
+  }
+  .section-label::after { content: ''; width: 40px; height: 1px; background: var(--teal); }
+  .section-label.light { color: var(--teal2); }
+  .section-label.light::after { background: var(--teal2); }
+  .section-title {
+    font-family: var(--serif);
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    line-height: 1.2; color: var(--ink);
+    margin-bottom: 1rem;
+  }
+  .section-title.light { color: #fff; }
+  .section-title em { color: var(--teal); font-style: italic; }
+  .section-title.light em { color: var(--teal2); }
+  .section-body {
+    font-size: 0.95rem; line-height: 1.8;
+    color: var(--mid); max-width: 580px; font-weight: 300;
+  }
+  .section-body.light { color: rgba(255,255,255,0.5); }
+
+  /* ── METHOD PAGE ── */
+  .method-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr);
+    gap: 1px; margin-top: 4rem;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+  .method-card {
+    background: #fff; padding: 2.5rem 2rem;
+    position: relative; overflow: hidden;
+    transition: box-shadow 0.3s;
+  }
+  .method-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); z-index: 1; }
+  .method-step {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.2em; color: var(--gold);
+    text-transform: uppercase; margin-bottom: 0.8rem;
+  }
+  .method-word {
+    font-family: var(--serif); font-size: 2rem;
+    color: var(--teal); margin-bottom: 0.3rem;
+  }
+  .method-verb {
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.1em; color: var(--mid);
+    text-transform: uppercase; margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .method-desc {
+    font-size: 0.88rem; line-height: 1.75;
+    color: var(--mid); margin-bottom: 1.5rem; font-weight: 300;
+  }
+  .method-qs { display: flex; flex-direction: column; gap: 0.5rem; }
+  .method-q {
+    font-size: 0.82rem; line-height: 1.5;
+    color: var(--ink2); display: flex; gap: 0.7rem; align-items: flex-start;
+  }
+  .method-q::before { content: '→'; color: var(--teal2); font-family: var(--mono); flex-shrink: 0; font-size: 0.75rem; margin-top: 0.1rem; }
+  .method-big {
+    position: absolute; bottom: -1rem; right: 1rem;
+    font-family: var(--serif); font-size: 7rem;
+    color: rgba(13,115,119,0.05); line-height: 1; pointer-events: none;
+  }
+
+  /* ── PROGRAMS PAGE ── */
+  .programs-intro { margin-bottom: 3rem; }
+  .programs-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+  .prog-card {
+    background: #fff; border: 1px solid var(--border);
+    border-top: 3px solid var(--teal);
+    padding: 2rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+    position: relative;
+  }
+  .prog-card:first-child {
+    border-top-color: var(--gold);
+  }
+  .prog-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 32px rgba(0,0,0,0.08);
+  }
+  .prog-icon { font-size: 1.5rem; margin-bottom: 0.8rem; }
+  .prog-title {
+    font-family: var(--serif); font-size: 1.15rem;
+    color: var(--ink); margin-bottom: 0.4rem;
+  }
+  .prog-desc {
+    font-size: 0.85rem; line-height: 1.65;
+    color: var(--mid); font-weight: 300; margin-bottom: 1rem;
+  }
+  .prog-modules {
+    margin-bottom: 1.2rem;
+    padding: 0.8rem 1rem;
+    background: var(--teal-light);
+    border-left: 2px solid var(--teal2);
+  }
+  .prog-modules-label {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--teal); margin-bottom: 0.5rem;
+  }
+  .prog-module-list {
+    font-size: 0.8rem; line-height: 1.7;
+    color: var(--ink2); font-weight: 300;
+  }
+  .prog-module-list li {
+    list-style: none; display: flex; gap: 0.5rem; align-items: flex-start;
+  }
+  .prog-module-list li::before {
+    content: '·'; color: var(--teal2); flex-shrink: 0; font-weight: 700;
+  }
+  .prog-meta { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+  .tag {
+    font-family: var(--mono); font-size: 0.6rem;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    padding: 0.25rem 0.6rem;
+    background: var(--teal-light); color: var(--teal);
+    border-radius: 2px;
+  }
+  .tag.gold { background: var(--gold-light); color: var(--gold); }
+
+  /* ── IMPACT PAGE ── */
+  .impact-list { margin-top: 3.5rem; }
+  .impact-item {
+    display: grid; grid-template-columns: 80px 1fr;
+    border-top: 1px solid var(--border);
+    padding: 2.5rem 0; gap: 2.5rem; align-items: start;
+  }
+  .impact-item:last-child { border-bottom: 1px solid var(--border); }
+  .impact-num {
+    font-family: var(--serif); font-size: 2.5rem;
+    color: rgba(13,115,119,0.15); line-height: 1;
+    padding-top: 0.3rem;
+  }
+  .impact-sector {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--gold); margin-bottom: 0.5rem;
+  }
+  .impact-headline {
+    font-family: var(--serif); font-size: 1.3rem;
+    color: var(--ink); margin-bottom: 0.8rem; line-height: 1.3;
+  }
+  .impact-body {
+    font-size: 0.88rem; line-height: 1.8;
+    color: var(--mid); font-weight: 300; max-width: 620px;
+    margin-bottom: 1rem;
+  }
+  .impact-tags { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+
+  /* ── CONTACT PAGE ── */
+  .contact-wrap {
+    min-height: calc(100vh - 64px);
+    background: var(--ink);
+    display: grid; grid-template-columns: 1fr 1fr;
+    position: relative; overflow: hidden;
+  }
+  .contact-texture {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 30% 60%, rgba(13,115,119,0.12) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .contact-left {
+    padding: 6rem 4rem 6rem 5rem;
+    position: relative; z-index: 2;
+    display: flex; flex-direction: column; justify-content: center;
+  }
+  .contact-title {
+    font-family: var(--serif); font-size: clamp(2rem, 3.5vw, 3rem);
+    color: #fff; line-height: 1.2; margin-bottom: 1.2rem;
+  }
+  .contact-title em { color: var(--teal2); font-style: italic; }
+  .contact-body {
+    font-size: 0.95rem; color: rgba(255,255,255,0.5);
+    line-height: 1.8; font-weight: 300; margin-bottom: 3rem; max-width: 420px;
+  }
+  .contact-links { display: flex; flex-direction: column; gap: 1rem; }
+  .contact-email {
+    font-family: var(--mono); font-size: 0.9rem;
+    color: var(--teal2); text-decoration: none;
+    padding: 1rem 1.5rem;
+    border: 1px solid rgba(13,115,119,0.35);
+    letter-spacing: 0.05em;
+    transition: all 0.25s;
+    display: inline-block;
+  }
+  .contact-email:hover { background: var(--teal); color: #fff; border-color: var(--teal); }
+  .contact-linkedin {
+    font-size: 0.82rem; color: rgba(255,255,255,0.35);
+    text-decoration: none; font-weight: 300; letter-spacing: 0.03em;
+    display: flex; align-items: center; gap: 0.5rem;
+    transition: color 0.2s;
+  }
+  .contact-linkedin:hover { color: var(--teal2); }
+  .contact-right {
+    padding: 6rem 4rem;
+    position: relative; z-index: 2;
+    border-left: 1px solid rgba(13,115,119,0.15);
+    display: flex; flex-direction: column; justify-content: center; gap: 2rem;
+  }
+  .contact-info-block {}
+  .contact-info-label {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--teal2); margin-bottom: 0.8rem;
+  }
+  .contact-info-value {
+    font-size: 0.9rem; color: rgba(255,255,255,0.6);
+    font-weight: 300; line-height: 1.6;
+  }
+  .formats-box {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(13,115,119,0.2);
+    padding: 1.8rem;
+  }
+  .formats-title {
+    font-family: var(--mono); font-size: 0.62rem;
+    letter-spacing: 0.2em; color: var(--teal2);
+    text-transform: uppercase; margin-bottom: 1.2rem;
+  }
+  .format-row {
+    display: flex; justify-content: space-between;
+    padding: 0.65rem 0; border-top: 1px solid rgba(255,255,255,0.06);
+    gap: 1rem;
+  }
+  .format-name { font-size: 0.85rem; color: rgba(255,255,255,0.7); }
+  .format-detail { font-family: var(--mono); font-size: 0.65rem; color: rgba(255,255,255,0.35); text-align: right; }
+
+  /* ── HEADSHOT PLACEHOLDER ── */
+  .headshot-placeholder {
+    width: 100%; aspect-ratio: 3/4; max-width: 280px;
+    background: rgba(13,115,119,0.1);
+    border: 2px dashed rgba(13,115,119,0.3);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; gap: 0.5rem;
+    color: rgba(255,255,255,0.25);
+    font-family: var(--mono); font-size: 0.65rem;
+    letter-spacing: 0.1em; text-align: center;
+    margin-bottom: 2rem;
+  }
+  .headshot-placeholder svg { opacity: 0.3; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: rgba(0,0,0,0.4);
+    padding: 1.2rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(13,115,119,0.15);
+  }
+  .footer-brand {
+    font-family: var(--mono); font-size: 0.68rem;
+    color: rgba(255,255,255,0.3); letter-spacing: 0.08em;
+  }
+  .footer-brand .dot { color: var(--teal2); }
+  .footer-note { font-size: 0.7rem; color: rgba(255,255,255,0.2); font-weight: 300; }
+
+  /* ── REVEAL ── */
+  .reveal {
+    opacity: 0; transform: translateY(20px);
+    transition: opacity 0.55s ease, transform 0.55s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    nav { padding: 0 1.5rem; }
+    .nav-tabs li a { padding: 0 0.8rem; font-size: 0.68rem; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-right { border-left: none; border-top: 1px solid rgba(13,115,119,0.2); flex-direction: row; flex-wrap: wrap; }
+    .stat-card { flex: 1 1 50%; border-right: 1px solid rgba(13,115,119,0.15); }
+    .method-grid { grid-template-columns: 1fr; }
+    .programs-grid { grid-template-columns: 1fr; }
+    .contact-wrap { grid-template-columns: 1fr; }
+    .contact-right { border-left: none; border-top: 1px solid rgba(13,115,119,0.15); padding: 3rem 2rem; }
+    .contact-left { padding: 4rem 2rem 3rem; }
+    .hero-left { padding: 4rem 1.5rem 3rem; }
+    footer { padding: 1.2rem 1.5rem; flex-direction: column; gap: 0.4rem; text-align: center; }
+    .impact-item { grid-template-columns: 1fr; gap: 0.5rem; }
+    .impact-num { font-size: 1.8rem; }
+  }
+  @media (max-width: 600px) {
+    .nav-tabs { display: none; }
+    .mobile-menu-btn { display: flex; }
+  }
+</style>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body>
 
-    <div class="container mx-auto px-4 py-8 md:py-12">
-        <header class="text-center mb-10">
-            <div class="flex justify-center items-center gap-4">
-                <!-- Image path points to the local images folder -->
-                <img src="images/logo.jpg" alt="ThinkSolveDeliver Logo" class="h-12 w-auto">
-                <h1 class="text-4xl md:text-5xl font-bold text-gray-900">ThinkSolveDeliver</h1>
-            </div>
-            <p class="mt-4 text-lg text-gray-600">Your one-stop collection of essential Excel resources, case studies, and AI-powered tips.</p>
-        </header>
+<!-- NAV -->
+<nav>
+  <a class="nav-logo" href="#" onclick="showPage('home',this)">Think<span class="dot">.</span>Solve<span class="dot">.</span>Deliver</a>
+  <ul class="nav-tabs">
+    <li><a href="#" onclick="showPage('home',this)" class="active" data-page="home">Home</a></li>
+    <li><a href="#" onclick="showPage('method',this)" data-page="method">Method</a></li>
+    <li><a href="#" onclick="showPage('programs',this)" data-page="programs">Programs</a></li>
+    <li><a href="#" onclick="showPage('impact',this)" data-page="impact">Impact</a></li>
+    <li><a href="#" onclick="showPage('contact',this)" class="nav-cta" data-page="contact">Get in Touch</a></li>
+  </ul>
+</nav>
 
-        <!-- Resources Section -->
-        <main class="max-w-4xl mx-auto space-y-4">
-             <h2 class="text-3xl font-bold text-center text-gray-800 mb-6 mt-12">Resource Library</h2>
-             <div id="resources-container" class="space-y-4">
-                <!-- Resources will be dynamically inserted here by the script -->
-             </div>
-        </main>
-        
-        <!-- Case Studies Section -->
-        <section class="max-w-4xl mx-auto mt-16">
-            <h2 class="text-3xl font-bold text-center text-gray-800 mb-10">Case Studies & Problems</h2>
-            <div id="case-studies-container" class="space-y-4">
-                <!-- Case studies will now be inserted here as accordions by the script -->
-            </div>
-        </section>
-        
-        <footer class="text-center mt-16 pt-8 border-t border-gray-200 text-gray-500">
-             <p class="font-semibold text-gray-600">© ThinkSolveDeliver team</p>
-             <p class="mt-1">For more details contact <a href="mailto:thinksolvedeliver@gmail.com" class="text-indigo-600 hover:underline">thinksolvedeliver@gmail.com</a></p>
-        </footer>
+<!-- ══════════════════════════════════════
+     PAGE: HOME
+════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+  <div class="hero">
+    <div class="hero-texture"></div>
+    <div class="hero-left">
+      <div class="hero-eyebrow">Corporate Trainer &amp; Capability Builder</div>
+      <h1 class="hero-headline">Building capability<br>that <em>transfers</em><br>to the job.</h1>
+      <p class="hero-sub">Programs designed around your team's actual work — not generic slides. Grounded in <strong>15+ years of consulting, analytics, and business leadership</strong> across industries.</p>
+      <a href="#" onclick="showPage('contact', document.querySelector('[data-page=contact]'))" class="btn-primary">Get in Touch →</a>
     </div>
-
-    <!-- Lightbox Modal Structure -->
-    <div id="image-lightbox" class="lightbox">
-        <span class="lightbox-close">&times;</span>
-        <img class="lightbox-content" id="lightbox-img">
+    <div class="hero-right">
+      <div class="stat-card">
+        <div class="stat-num">15+</div>
+        <div class="stat-text">
+          <strong>Years of practitioner experience</strong>
+          <span>Consulting, GCC leadership, analytics &amp; sales effectiveness</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">20+</div>
+        <div class="stat-text">
+          <strong>Paid programs delivered</strong>
+          <span>Workshops across India, in-person &amp; virtual</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">500+</div>
+        <div class="stat-text">
+          <strong>Professionals trained</strong>
+          <span>Individual contributors to senior leaders</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num">6</div>
+        <div class="stat-text">
+          <strong>Core training domains</strong>
+          <span>From Excel &amp; Power BI to AI, leadership &amp; GCC strategy</span>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Industries strip -->
+  <div style="background: var(--warm); padding: 2rem 0; border-top: 1px solid var(--border);">
+    <div class="container">
+      <div style="display:flex; align-items:center; gap:1.5rem; flex-wrap:wrap;">
+        <span style="font-family:var(--mono);font-size:0.62rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--mid);white-space:nowrap;">Industries</span>
+        <div style="width:1px;height:20px;background:var(--border);"></div>
+        <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">Management Consulting</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">Healthcare</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">Hospitality</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">Airlines</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">Manufacturing</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">FMCG / CPG</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">Pharmaceuticals</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">Commercial Real Estate</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">SaaS / Technology</span>
+          <span style="color:var(--border)">·</span>
+          <span style="font-size:0.82rem;color:var(--mid);font-weight:300;">Oil &amp; Energy</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /page-home -->
 
 
-    <script>
-        // --- DATA SOURCE ---
-        // Data is now embedded directly in the HTML to prevent loading errors.
-        const resources = [
-            {
-                id: 'shortcuts',
-                title: 'Top 30 Essential Excel Shortcuts',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H5v-2H3v-2H1v-4a1 1 0 011-1h2.157a6 6 0 016.343-5.343z" /></svg>`,
-                content: [
-                    { category: 'Navigation & Selection', name: 'Ctrl + Arrow Keys', description: 'Jump to the edge of the current data region.' },
-                    { category: 'Navigation & Selection', name: 'Ctrl + Shift + Arrow Keys', description: 'Select all cells from the current cell to the edge of the data.' },
-                    { category: 'Navigation & Selection', name: 'Ctrl + Home / End', description: 'Move to the beginning of the worksheet (A1) or the last used cell.' },
-                    { category: 'Navigation & Selection', name: 'Ctrl + PageUp / PageDown', description: 'Switch to the previous or next worksheet.' },
-                    { category: 'Navigation & Selection', name: 'Ctrl + Spacebar', description: 'Select the entire column of the active cell.' },
-                    { category: 'Navigation & Selection', name: 'Shift + Spacebar', description: 'Select the entire row of the active cell.' },
-                    { category: 'Navigation & Selection', name: 'Ctrl + A', description: 'Select the current region or the entire worksheet.' },
-                    { category: 'Data Entry & Editing', name: 'F2', description: 'Edit the active cell and position the cursor at the end of the content.' },
-                    { category: 'Data Entry & Editing', name: 'Ctrl + D', description: 'Fill down. Copies the content and format from the cell above.' },
-                    { category: 'Data Entry & Editing', name: 'Ctrl + R', description: 'Fill right. Copies the content and format from the cell to the left.' },
-                    { category: 'Data Entry & Editing', name: 'Ctrl + E', description: 'Flash Fill. Automatically fills values based on an adjacent pattern.' },
-                    { category: 'Data Entry & Editing', name: 'Ctrl + ;', description: 'Insert the current date.' },
-                    { category: 'Data Entry & Editing', name: 'Ctrl + Shift + :', description: 'Insert the current time.' },
-                    { category: 'Data Entry & Editing', name: 'Ctrl + Enter', description: 'Fill the selected cell range with the current entry.' },
-                    { category: 'Formatting', name: 'Ctrl + 1', description: 'Open the Format Cells dialog box.' },
-                    { category: 'Formatting', name: 'Ctrl + B', description: 'Apply or remove bold formatting.' },
-                    { category: 'Formatting', name: 'Ctrl + I', description: 'Apply or remove italic formatting.' },
-                    { category: 'Formatting', name: 'Ctrl + U', 'description': 'Apply or remove underlining.' },
-                    { category: 'Formatting', name: 'Ctrl + Shift + $', description: 'Apply the Currency format with two decimal places.' },
-                    { category: 'Formatting', name: 'Ctrl + Shift + %', description: 'Apply the Percentage format with no decimal places.' },
-                    { category: 'Formulas & Auditing', name: 'Alt + =', description: 'AutoSum. Automatically inserts a SUM formula.' },
-                    { category: 'Formulas & Auditing', name: 'F4', description: 'Toggle between absolute, mixed, and relative cell references in a formula.' },
-                    { category: 'Formulas & Auditing', name: 'Ctrl + ` (Backtick)', description: 'Toggle the display of cell values and formulas in the worksheet.' },
-                    { category: 'Formulas & Auditing', name: 'Shift + F3', description: 'Open the Insert Function dialog box.' },
-                    { category: 'General Productivity', name: 'Ctrl + T', description: 'Create a Table from a range of data.' },
-                    { category: 'General Productivity', name: 'Ctrl + Shift + L', description: 'Toggle the AutoFilter on or off for a data range.' },
-                    { category: 'General Productivity', name: 'Alt + N, V', description: 'Create a PivotTable.' },
-                    { category: 'General Productivity', name: 'F11', description: 'Create a chart of the data in a new chart sheet.' },
-                    { category: 'General Productivity', name: 'Alt + F1', description: 'Create an embedded chart of the data in the current sheet.' },
-                    { category: 'General Productivity', name: 'Ctrl + Z / Ctrl + Y', description: 'Undo or Redo the last action.' },
-                ]
-            },
-            {
-                id: 'formulas',
-                title: 'Essential Excel Formulas Cheat Sheet',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h3m-3-10h.01M9 17h.01M12 17h.01M15 17h.01M9 14h.01M12 14h.01M15 14h.01M4 7h16a1 1 0 011 1v10a1 1 0 01-1 1H4a1 1 0 01-1-1V8a1 1 0 011-1z" /></svg>`,
-                content: [
-                    { name: 'SUM', syntax: '=SUM(range)', description: 'Adds all numbers in a specified range of cells.' },
-                    { name: 'AVERAGE', syntax: '=AVERAGE(range)', description: 'Calculates the average (arithmetic mean) of numbers in a range.' },
-                    { name: 'COUNT', syntax: '=COUNT(range)', description: 'Counts the number of cells that contain numbers.' },
-                    { name: 'COUNTA', syntax: '=COUNTA(range)', description: 'Counts the number of non-empty cells.' },
-                    { name: 'IF', syntax: '=IF(logical_test, value_if_true, value_if_false)', description: 'Returns one value if a condition is true and another value if it\'s false.' },
-                    { name: 'XLOOKUP', syntax: '=XLOOKUP(lookup_value, lookup_array, return_array)', description: 'A modern, flexible replacement for VLOOKUP.' },
-                    { name: 'SUMIF', syntax: '=SUMIF(range, criteria, [sum_range])', description: 'Adds cells specified by a given condition or criteria.' },
-                    { name: 'COUNTIF', syntax: '=COUNTIF(range, criteria)', description: 'Counts the number of cells within a range that meet a single criterion.' },
-                ]
-            },
-            {
-                id: 'formatting',
-                title: 'Excel Formatting Best Practices',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" /></svg>`,
-                content: [
-                    { name: 'Use Tables (Ctrl+T)', description: 'Provides structured referencing, easy formatting, and automatic formula fill-down.' },
-                    { name: 'Consistent Fonts & Colors', description: 'Use a maximum of two fonts. Use color purposefully to highlight information, not just for decoration.' },
-                    { name: 'Proper Number Formatting', description: 'Use built-in formats for dates, currency, and percentages. Avoid storing numbers as text.' },
-                    { name: 'Conditional Formatting', description: 'Apply formatting based on cell values to visually highlight trends, outliers, or important data points.' },
-                    { name: 'Avoid Merged Cells', description: 'Use "Center Across Selection" instead for horizontal centering to avoid issues with sorting and filtering.' },
-                ]
-            },
-            {
-                id: 'integrity',
-                title: 'Data Integrity & Quality Checks',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
-                content: [
-                    { name: 'Data Validation', description: 'Restrict data entry in cells to specific types or values (e.g., a list, date range) to prevent errors.' },
-                    { name: 'Remove Duplicates', description: 'Use the built-in "Remove Duplicates" tool to clean datasets of redundant entries.' },
-                    { name: 'Error Checking Formulas', description: 'Use =IFERROR() to catch and handle errors gracefully instead of displaying #N/A, #VALUE!, etc.' },
-                    { name: 'Protect Sheets/Workbooks', description: 'Protect cells containing important formulas from accidental changes.' },
-                ]
-            },
-            {
-                id: 'ai_prompts',
-                title: 'Effective AI Prompts for Excel Users',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" /></svg>`,
-                content: [
-                    { name: 'Formula Generation', description: 'Provide clear cell references and desired logic. Example: "Write an Excel formula for cell C2 that returns \'High\' if B2 is greater than 1000, \'Medium\' if B2 is between 500 and 1000, and \'Low\' otherwise."' },
-                    { name: 'VBA Scripting', description: 'Describe the action step-by-step. Example: "Write a VBA macro that loops through all sheets in the workbook and copies range A1:F10 into the \'Master\' sheet."' },
-                    { name: 'Data Cleaning Steps', description: 'Paste a sample of your messy data and describe the desired outcome. Example: "Here is some data: [\'John Doe (Sales)\']. I need a formula to extract the name into one column and the department into another."' },
-                    { name: 'Complex Function Explanation', description: 'Ask for a breakdown of a complex formula. Example: "Explain this formula in simple terms: =INDEX(A:A, AGGREGATE(15, 6, ROW(A2:A100)/(B2:B100=\"Apples\"), 1))"' },
-                ]
-            }
-        ];
+<!-- ══════════════════════════════════════
+     PAGE: METHOD
+════════════════════════════════════════ -->
+<div id="page-method" class="page">
+  <div class="section" style="background:var(--light);">
+    <div class="container">
+      <div class="section-label reveal">The Approach</div>
+      <h2 class="section-title reveal">A working philosophy,<br>not just a <em>brand name</em>.</h2>
+      <p class="section-body reveal" style="margin-bottom:0;">Every program is customized based on teams' requirements and built around three stages.</p>
+      <div class="method-grid reveal">
+        <div class="method-card">
+          <div class="method-step">Stage 01</div>
+          <div class="method-word">Think</div>
+          <div class="method-verb">Diagnose before designing</div>
+          <div class="method-desc">Before any content is built, time is spent understanding the real problem — not just the training request. What's the gap? What's the root cause? What would actually change if this worked?</div>
+          <div class="method-qs">
+            <div class="method-q">What does success look like in 90 days?</div>
+            <div class="method-q">What's breaking down, and why?</div>
+            <div class="method-q">Who is in the room, and what do they already know?</div>
+            <div class="method-q">What would make this session fail?</div>
+          </div>
+          <div class="method-big">01</div>
+        </div>
+        <div class="method-card">
+          <div class="method-step">Stage 02</div>
+          <div class="method-word">Solve</div>
+          <div class="method-verb">Design within real constraints</div>
+          <div class="method-desc">The program is built around your business context — your tools, your terminology, your team's actual work. Frameworks are taught through real scenarios, not textbook case studies.</div>
+          <div class="method-qs">
+            <div class="method-q">What examples will land for this specific audience?</div>
+            <div class="method-q">Where will resistance come from?</div>
+            <div class="method-q">What exercises create real application, not just engagement?</div>
+          </div>
+          <div class="method-big">02</div>
+        </div>
+        <div class="method-card">
+          <div class="method-step">Stage 03</div>
+          <div class="method-word">Deliver</div>
+          <div class="method-verb">Outcomes, not just sessions</div>
+          <div class="method-desc">A workshop that changes nothing is a wasted day. Sessions are designed for transfer — what participants do differently the morning after. Each session closes with specific commitments tied to real work.</div>
+          <div class="method-qs">
+            <div class="method-q">What's the one thing each person commits to changing?</div>
+            <div class="method-q">How does the manager reinforce this back on the job?</div>
+            <div class="method-q">What's the follow-up mechanism?</div>
+          </div>
+          <div class="method-big">03</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        const caseStudies = [
-            {
-                id: 'case1',
-                title: 'Flagging Non-Sequential & Incorrectly Ordered Roll Numbers',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" /></svg>`,
-                imageUrl: 'images/case1.png',
-                description: `
-                    <p><strong>Illustrative Data:</strong> The table includes roll numbers with branch codes (CV, EC, MN, ME).</p>
-                    <p><strong>Problem Statement:</strong> Using a single Excel formula, you need to solve two challenges:</p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1">
-                        <li><strong>Q1.</strong> Flag roll numbers within a specific branch that are not in sequential order.</li>
-                        <li><strong>Q2.</strong> Flag roll numbers in the entire list that are not in the user-provided order for branches (e.g., CV, EC, MN, ME...).</li>
-                    </ul>
-                `
-            },
-            {
-                id: 'case2',
-                title: 'Identifying the Last Blank Cell in a Column',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 10l.01.01" /></svg>`,
-                imageUrl: 'images/case2.png',
-                description: `
-                    <p><strong>Illustrative Data:</strong> A table with 10k+ rows and 100+ columns of student data. Some columns may have blank cells.</p>
-                    <p><strong>Problem Statement:</strong> Using a single Excel formula, identify the row number of the <strong>last blank cell</strong> in a given column.</p>
-                `
-            },
-            {
-                id: 'case3',
-                title: 'Analyzing Student Performance Improvement',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>`,
-                imageUrl: 'images/case3.png',
-                description: `
-                    <p><strong>Illustrative Data:</strong> A table with student roll numbers and the marks they received in 7 different assignments (out of 10).</p>
-                    <p><strong>Problem Statement:</strong> The Dean wants to understand if students are improving. In a limited number of steps (using Excel, SQL, Tableau, or Python), identify the number of assignments in which students have improved their performance from the previous assignment.</p>
-                `
-            },
-            {
-                id: 'case4',
-                title: 'Dynamic Daily Quota Allocation',
-                icon: `<svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>`,
-                imageUrl: 'images/case4.png',
-                description: `
-                    <p><strong>Client Situation:</strong> We need to divide monthly rep quotas into daily quotas based on specific logic:</p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1">
-                        <li>Daily quota cannot exceed a threshold (e.g., 70 for role A, 50 for B, 30 for C).</li>
-                        <li>Total daily quota assigned should equal the monthly quota.</li>
-                        <li>Weekends and office holidays should not have any quota.</li>
-                    </ul>
-                    <p class="mt-2"><strong>Problem Statement:</strong></p>
-                    <ul class="list-disc pl-5 mt-2 space-y-1">
-                        <li>Write a generic formula to assign the daily quota for each day based on the logic.</li>
-                        <li>Highlight cases where the daily quota achieved is <80% of what was assigned.</li>
-                        <li>Highlight cases where the monthly quota cannot be achieved or the number of days required increases by 5.</li>
-                    </ul>
-                `
-            }
-        ];
+  <!-- What to expect strip -->
+  <div class="section" style="background:var(--cream);">
+    <div class="container">
+      <div class="section-label reveal">Before Every Brief</div>
+      <h2 class="section-title reveal">Questions asked <em>upfront</em>.</h2>
+      <p class="section-body reveal">Before designing a single slide, the brief is scoped properly. A poorly scoped program is worse than no program at all.</p>
+      <div style="margin-top:2.5rem;display:grid;grid-template-columns:1fr 1fr;gap:0;">
+        <div style="border:1px solid var(--border);border-right:none;">
+          <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:flex-start;" class="reveal">
+            <span style="color:var(--teal);font-family:var(--mono);font-size:0.75rem;flex-shrink:0;margin-top:0.1rem;">→</span>
+            <span style="font-size:0.88rem;line-height:1.6;color:var(--mid);font-weight:300;">What specific behavior or outcome are you trying to change — and how will you know it worked?</span>
+          </div>
+          <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:flex-start;" class="reveal">
+            <span style="color:var(--teal);font-family:var(--mono);font-size:0.75rem;flex-shrink:0;margin-top:0.1rem;">→</span>
+            <span style="font-size:0.88rem;line-height:1.6;color:var(--mid);font-weight:300;">Who is in the room? What's their current skill level, and what's their motivation to be there?</span>
+          </div>
+          <div style="padding:1.2rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;" class="reveal">
+            <span style="color:var(--teal);font-family:var(--mono);font-size:0.75rem;flex-shrink:0;margin-top:0.1rem;">→</span>
+            <span style="font-size:0.88rem;line-height:1.6;color:var(--mid);font-weight:300;">What has been tried before, and why did it not stick?</span>
+          </div>
+        </div>
+        <div style="border:1px solid var(--border);">
+          <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:flex-start;" class="reveal">
+            <span style="color:var(--teal);font-family:var(--mono);font-size:0.75rem;flex-shrink:0;margin-top:0.1rem;">→</span>
+            <span style="font-size:0.88rem;line-height:1.6;color:var(--mid);font-weight:300;">What tools, systems, and terminology does this team actually use day-to-day?</span>
+          </div>
+          <div style="padding:1.2rem 1.5rem;border-bottom:1px solid var(--border);display:flex;gap:1rem;align-items:flex-start;" class="reveal">
+            <span style="color:var(--teal);font-family:var(--mono);font-size:0.75rem;flex-shrink:0;margin-top:0.1rem;">→</span>
+            <span style="font-size:0.88rem;line-height:1.6;color:var(--mid);font-weight:300;">What does the manager need to do differently after the session to reinforce the learning?</span>
+          </div>
+          <div style="padding:1.2rem 1.5rem;display:flex;gap:1rem;align-items:flex-start;" class="reveal">
+            <span style="color:var(--teal);font-family:var(--mono);font-size:0.75rem;flex-shrink:0;margin-top:0.1rem;">→</span>
+            <span style="font-size:0.88rem;line-height:1.6;color:var(--mid);font-weight:300;">What's the one thing, if participants only remember it three months later, that you'd want it to be?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div><!-- /page-method -->
 
-        // --- RENDER FUNCTIONS ---
-        document.addEventListener('DOMContentLoaded', () => {
-            renderResources();
-            renderCaseStudies();
-            setupLightbox();
+
+<!-- ══════════════════════════════════════
+     PAGE: PROGRAMS
+════════════════════════════════════════ -->
+<div id="page-programs" class="page">
+  <div class="section" style="background:var(--light);">
+    <div class="container">
+      <div class="programs-intro">
+        <div class="section-label reveal">Training Programs</div>
+        <p class="section-body reveal" style="margin-top:0.5rem;">All programs are available standalone or combined into multi-day capability builds. Designed for individual contributors to senior leaders.</p>
+      </div>
+      <div class="programs-grid">
+
+        <!-- AI FIRST -->
+        <div class="prog-card reveal">
+          <div class="prog-icon">🤖</div>
+          <div class="prog-title">AI Tools for Productivity</div>
+          <div class="prog-desc">Practical ways to use AI in day-to-day work — from prompting to workflows to knowing where human judgment stays irreplaceable. Grounded in real tools, not hype.</div>
+          <div class="prog-modules">
+            <div class="prog-modules-label">What's covered</div>
+            <ul class="prog-module-list">
+              <li>AI foundations &amp; what these tools actually do</li>
+              <li>Prompting frameworks for consistent results</li>
+              <li>ChatGPT, Claude &amp; Microsoft Copilot compared</li>
+              <li>Use cases across documents, data &amp; communication</li>
+              <li>Quality control &amp; what to verify before using AI output</li>
+              <li>Data security — what's safe to share and what isn't</li>
+            </ul>
+          </div>
+          <div class="prog-meta">
+            <span class="tag">Half-day to Full-day</span>
+            <span class="tag">All Levels</span>
+            <span class="tag gold">High Demand</span>
+          </div>
+        </div>
+
+        <!-- EXCEL -->
+        <div class="prog-card reveal">
+          <div class="prog-icon">📊</div>
+          <div class="prog-title">Advanced Excel &amp; Model Thinking</div>
+          <div class="prog-desc">Not just functions — how to think before you build. Model architecture, workbook design, and building from the user's perspective. From essentials through advanced, including VBA.</div>
+          <div class="prog-modules">
+            <div class="prog-modules-label">What's covered</div>
+            <ul class="prog-module-list">
+              <li>Data structuring &amp; workbook best practices</li>
+              <li>PivotTables &amp; dynamic reports</li>
+              <li>Modern formulas (XLOOKUP, FILTER, dynamic arrays)</li>
+              <li>Power Query &amp; automation</li>
+              <li>Excel to Power BI transition</li>
+            </ul>
+          </div>
+          <div class="prog-meta">
+            <span class="tag">Half-day to Multi-day</span>
+            <span class="tag">IC to Manager</span>
+            <span class="tag gold">Most Requested</span>
+          </div>
+        </div>
+
+        <!-- POWER BI -->
+        <div class="prog-card reveal">
+          <div class="prog-icon">📈</div>
+          <div class="prog-title">Power BI for Business Professionals</div>
+          <div class="prog-desc">For professionals who need to build and use dashboards — not data engineers. Turning business questions into visual answers.</div>
+          <div class="prog-modules">
+            <div class="prog-modules-label">What's covered</div>
+            <ul class="prog-module-list">
+              <li>Connecting data sources</li>
+              <li>Building interactive visuals</li>
+              <li>Slicers, filters &amp; KPI cards</li>
+              <li>Sharing &amp; collaboration workflows</li>
+            </ul>
+          </div>
+          <div class="prog-meta">
+            <span class="tag">Half-day to Full-day</span>
+            <span class="tag">IC to Manager</span>
+          </div>
+        </div>
+
+        <!-- ANALYTICS -->
+        <div class="prog-card reveal">
+          <div class="prog-icon">🧠</div>
+          <div class="prog-title">Analytics &amp; Data-Driven Decision Making</div>
+          <div class="prog-desc">Translating data into decisions. Building analytical intuition. Communicating findings so stakeholders actually act on them.</div>
+          <div class="prog-modules">
+            <div class="prog-modules-label">What's covered</div>
+            <ul class="prog-module-list">
+              <li>Structuring analytical problems</li>
+              <li>Choosing the right analysis</li>
+              <li>Storytelling with data</li>
+              <li>Presenting to business stakeholders</li>
+            </ul>
+          </div>
+          <div class="prog-meta">
+            <span class="tag">Full-day to Multi-day</span>
+            <span class="tag">IC to Manager</span>
+          </div>
+        </div>
+
+        <!-- CONSULTING -->
+        <div class="prog-card reveal">
+          <div class="prog-icon">🔍</div>
+          <div class="prog-title">Consulting Skills &amp; Structured Problem Solving</div>
+          <div class="prog-desc">How to think through complex problems — hypothesis-driven reasoning, structured decomposition, and communicating recommendations to senior stakeholders.</div>
+          <div class="prog-modules">
+            <div class="prog-modules-label">What's covered</div>
+            <ul class="prog-module-list">
+              <li>Hypothesis-driven thinking</li>
+              <li>Problem decomposition frameworks</li>
+              <li>Stakeholder communication</li>
+              <li>Presenting recommendations under pressure</li>
+            </ul>
+          </div>
+          <div class="prog-meta">
+            <span class="tag">Full-day to Multi-day</span>
+            <span class="tag">Analysts &amp; Managers</span>
+          </div>
+        </div>
+
+        <!-- LEADERSHIP -->
+        <div class="prog-card reveal">
+          <div class="prog-icon">🏗️</div>
+          <div class="prog-title">Leadership, Team Building &amp; GCC Strategy</div>
+          <div class="prog-desc">For managers stepping into leadership, and organizations navigating GCC setup or growth. Covers accountability, feedback, high-performance culture, and operating model design.</div>
+          <div class="prog-modules">
+            <div class="prog-modules-label">What's covered</div>
+            <ul class="prog-module-list">
+              <li>Accountability &amp; feedback frameworks</li>
+              <li>Building high-performance culture</li>
+              <li>GCC operating model design</li>
+              <li>Managing across functions and geographies</li>
+            </ul>
+          </div>
+          <div class="prog-meta">
+            <span class="tag">Full-day to Cohort</span>
+            <span class="tag">Senior Leaders</span>
+          </div>
+        </div>
+
+      </div><!-- /programs-grid -->
+
+      <!-- Formats box -->
+      <div style="margin-top:3rem;padding:2rem;background:#fff;border:1px solid var(--border);display:grid;grid-template-columns:1fr 1fr;gap:2rem;" class="reveal">
+        <div>
+          <div class="section-label" style="margin-bottom:1.2rem;">Program Formats</div>
+          <div class="format-row" style="border-top:1px solid var(--border);padding:0.7rem 0;display:flex;justify-content:space-between;">
+            <span style="font-size:0.88rem;color:var(--ink2);">Half-Day Workshop</span>
+            <span style="font-family:var(--mono);font-size:0.65rem;color:var(--mid);">3–4 hrs · 1 focused domain</span>
+          </div>
+          <div class="format-row" style="border-top:1px solid var(--border);padding:0.7rem 0;display:flex;justify-content:space-between;">
+            <span style="font-size:0.88rem;color:var(--ink2);">Full-Day Workshop</span>
+            <span style="font-family:var(--mono);font-size:0.65rem;color:var(--mid);">6–8 hrs · Application focus</span>
+          </div>
+          <div class="format-row" style="border-top:1px solid var(--border);padding:0.7rem 0;display:flex;justify-content:space-between;">
+            <span style="font-size:0.88rem;color:var(--ink2);">Multi-Day Program</span>
+            <span style="font-family:var(--mono);font-size:0.65rem;color:var(--mid);">2–3 days · Capability build</span>
+          </div>
+          <div class="format-row" style="border-top:1px solid var(--border);padding:0.7rem 0;display:flex;justify-content:space-between;">
+            <span style="font-size:0.88rem;color:var(--ink2);">Cohort Program</span>
+            <span style="font-family:var(--mono);font-size:0.65rem;color:var(--mid);">Ongoing · Behaviour change</span>
+          </div>
+          <div class="format-row" style="border-top:1px solid var(--border);padding:0.7rem 0;display:flex;justify-content:space-between;">
+            <span style="font-size:0.88rem;color:var(--ink2);">Train-the-Trainer</span>
+            <span style="font-family:var(--mono);font-size:0.65rem;color:var(--mid);">Coach internal champions</span>
+          </div>
+        </div>
+        <div style="border-left:1px solid var(--border);padding-left:2rem;">
+          <div class="section-label" style="margin-bottom:1.2rem;">Logistics</div>
+          <div class="format-row" style="border-top:1px solid var(--border);padding:0.7rem 0;display:flex;justify-content:space-between;">
+            <span style="font-size:0.88rem;color:var(--ink2);">Batch Size</span>
+            <span style="font-family:var(--mono);font-size:0.65rem;color:var(--mid);">Optimal: 15–25</span>
+          </div>
+          <div class="format-row" style="border-top:1px solid var(--border);padding:0.7rem 0;display:flex;justify-content:space-between;">
+            <span style="font-size:0.88rem;color:var(--ink2);">Mode</span>
+            <span style="font-family:var(--mono);font-size:0.65rem;color:var(--mid);">In-person (preferred) · Virtual</span>
+          </div>
+          <div style="margin-top:1.5rem;font-size:0.82rem;line-height:1.7;color:var(--mid);font-weight:300;">
+            Custom curriculum available. Content is tailored to your industry, tools, and team context — not repurposed from a generic library.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div><!-- /page-programs -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: IMPACT
+════════════════════════════════════════ -->
+<div id="page-impact" class="page">
+  <div class="section" style="background:var(--cream);">
+    <div class="container">
+      <div class="section-label reveal">Impact Stories</div>
+      <h2 class="section-title reveal">What <em>changed</em>.</h2>
+      <div class="impact-list">
+
+        <div class="impact-item reveal">
+          <div class="impact-num">01</div>
+          <div>
+            <div class="impact-sector">Management Consulting · Analytics</div>
+            <div class="impact-headline">Building model discipline across a team of analysts</div>
+            <div class="impact-body">A leading consulting firm needed consistency in how analysts built Excel models — quality varied widely and client-facing workbooks were difficult to navigate. A full-day Advanced Excel workshop focused on the thought process behind model design: asking the right questions before opening a spreadsheet, building from the user's perspective. Outcome: a common standard emerged across the team, and client-facing workbooks became measurably cleaner.</div>
+            <div class="impact-tags">
+              <span class="tag">~80 Participants</span>
+              <span class="tag">Full-day</span>
+              <span class="tag">Advanced Excel</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="impact-item reveal">
+          <div class="impact-num">02</div>
+          <div>
+            <div class="impact-sector">Commercial Real Estate · Operations</div>
+            <div class="impact-headline">From dependency to self-sufficiency across 7 locations</div>
+            <div class="impact-body">A real estate management company was running Excel processes across 7 India offices with inconsistent skills and heavy reliance on a few individuals. A series of Excel and VBA workshops took teams from basics through automation. Train-the-trainer sessions with the HR team identified internal champions and coached them to sustain capability independently. Outcome: the organization no longer needs external support for future training.</div>
+            <div class="impact-tags">
+              <span class="tag">7 Locations</span>
+              <span class="tag">Workshop Series</span>
+              <span class="tag">Excel + VBA</span>
+              <span class="tag">Train-the-Trainer</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="impact-item reveal">
+          <div class="impact-num">03</div>
+          <div>
+            <div class="impact-sector">Cross-Industry · Analytics Tools</div>
+            <div class="impact-headline">Making dashboards accessible to business teams</div>
+            <div class="impact-body">Business teams were sitting on data they couldn't visualize. Focused 4-hour Power BI workshops for beginner audiences — professionals who needed to build and read dashboards, not become data engineers. Every exercise used data participants actually recognized. Outcome: direct transfer to work the following week.</div>
+            <div class="impact-tags">
+              <span class="tag">4-hour Format</span>
+              <span class="tag">Beginner Audience</span>
+              <span class="tag">Power BI</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="impact-item reveal">
+          <div class="impact-num">04</div>
+          <div>
+            <div class="impact-sector">Multiple Sectors · Future of Work</div>
+            <div class="impact-headline">Helping teams use AI practically — without the hype</div>
+            <div class="impact-body">As AI tools proliferated, teams were either dismissing them or using them haphazardly. A series of workshops helped professionals understand how to use AI for real productivity — what to use, when, and where human judgment remains irreplaceable. Grounded in real tools and workflows, not vendor demos.</div>
+            <div class="impact-tags">
+              <span class="tag">Workshop Series</span>
+              <span class="tag">All Levels</span>
+              <span class="tag">AI Productivity</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div><!-- /page-impact -->
+
+
+<!-- ══════════════════════════════════════
+     PAGE: CONTACT
+════════════════════════════════════════ -->
+<div id="page-contact" class="page">
+  <div class="contact-wrap">
+    <div class="contact-texture"></div>
+    <div class="contact-left">
+
+      <img src="data:image/png;base64,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" alt="Corporate Trainer" style="width:160px;height:160px;border-radius:50%;object-fit:cover;object-position:center top;border:3px solid rgba(13,115,119,0.4);margin-bottom:2rem;" />
+
+      <div class="section-label light" style="margin-bottom:1rem;">Get in Touch</div>
+      <h2 class="contact-title">Have a training<br>challenge worth <em>solving?</em></h2>
+      <p class="contact-body">Share what your team is working on. The first conversation is about understanding your problem — not pitching a program.</p>
+      <div class="contact-links">
+        <a class="contact-email" href="mailto:thinksolvedeliver@gmail.com">thinksolvedeliver@gmail.com</a>
+        <a class="contact-linkedin" href="https://linkedin.com/in/bhandariparesh" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          linkedin.com/in/bhandariparesh
+        </a>
+      </div>
+    </div>
+    <div class="contact-right">
+      <div class="contact-info-block">
+        <div class="contact-info-label">Location</div>
+        <div class="contact-info-value">Pune, Maharashtra<br>Available nationwide</div>
+      </div>
+      <div class="contact-info-block">
+        <div class="contact-info-label">Preferred Mode</div>
+        <div class="contact-info-value">In-person (preferred)<br>Virtual via Zoom</div>
+      </div>
+      <div class="formats-box">
+        <div class="formats-title">Program Formats</div>
+        <div class="format-row">
+          <div class="format-name">Half-Day Workshop</div>
+          <div class="format-detail">3–4 hrs</div>
+        </div>
+        <div class="format-row">
+          <div class="format-name">Full-Day Workshop</div>
+          <div class="format-detail">6–8 hrs</div>
+        </div>
+        <div class="format-row">
+          <div class="format-name">Multi-Day Program</div>
+          <div class="format-detail">2–3 days</div>
+        </div>
+        <div class="format-row">
+          <div class="format-name">Cohort Program</div>
+          <div class="format-detail">Ongoing</div>
+        </div>
+        <div class="format-row">
+          <div class="format-name">Train-the-Trainer</div>
+          <div class="format-detail">Variable</div>
+        </div>
+        <div class="format-row">
+          <div class="format-name">Batch Size</div>
+          <div class="format-detail">Optimal: 15–25</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <footer>
+    <div class="footer-brand">Think<span class="dot">.</span>Solve<span class="dot">.</span>Deliver</div>
+    <div class="footer-note">thinksolvedeliver@gmail.com</div>
+  </footer>
+</div><!-- /page-contact -->
+
+
+<script>
+  function showPage(id, linkEl) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // Show target
+    const target = document.getElementById('page-' + id);
+    if (target) {
+      target.classList.add('active');
+      window.scrollTo(0, 0);
+      // Trigger reveals
+      setTimeout(() => {
+        target.querySelectorAll('.reveal').forEach((el, i) => {
+          setTimeout(() => el.classList.add('visible'), i * 60);
         });
+      }, 50);
+    }
+    // Update nav active state
+    document.querySelectorAll('.nav-tabs a').forEach(a => a.classList.remove('active'));
+    const activeLink = document.querySelector('[data-page="' + id + '"]');
+    if (activeLink) activeLink.classList.add('active');
+    return false;
+  }
 
-        function createAccordionItem(item, isCaseStudy = false) {
-            const itemDiv = document.createElement('div');
-            itemDiv.className = 'bg-white rounded-lg shadow-md overflow-hidden';
-            itemDiv.id = `${isCaseStudy ? 'case' : 'resource'}-${item.id}`;
+  // Init: reveal home elements
+  document.addEventListener('DOMContentLoaded', () => {
+    // Home page has CSS animations, no JS reveal needed
+    // Other pages use intersection observer when visited
+  });
 
-            const button = document.createElement('button');
-            button.className = 'accordion-button w-full flex justify-between items-center p-5 text-left font-semibold text-lg text-gray-700 hover:bg-gray-100 focus:outline-none';
-            button.setAttribute('aria-expanded', 'false');
+  // Intersection observer for scroll reveals within active page
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
 
-            const titleDiv = document.createElement('div');
-            titleDiv.className = 'flex items-center space-x-4';
-            titleDiv.innerHTML = item.icon;
-            const titleSpan = document.createElement('span');
-            titleSpan.textContent = item.title;
-            titleDiv.appendChild(titleSpan);
-
-            const chevronIcon = document.createElement('div');
-            chevronIcon.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>`;
-            
-            button.appendChild(titleDiv);
-            button.appendChild(chevronIcon);
-
-            const contentDiv = document.createElement('div');
-            contentDiv.id = `content-${item.id}`;
-            contentDiv.className = 'accordion-content bg-gray-50';
-            
-            button.addEventListener('click', () => {
-                const isExpanded = button.getAttribute('aria-expanded') === 'true';
-                button.setAttribute('aria-expanded', !isExpanded);
-                button.classList.toggle('open');
-                contentDiv.classList.toggle('open');
-                contentDiv.style.maxHeight = !isExpanded ? contentDiv.scrollHeight + 'px' : '0px';
-            });
-
-            itemDiv.appendChild(button);
-            itemDiv.appendChild(contentDiv);
-            return { itemDiv, contentDiv };
-        }
-
-        function renderResources() {
-            const container = document.getElementById('resources-container');
-            if (!container) return;
-            container.innerHTML = ''; 
-
-            resources.forEach((resource) => {
-                const { itemDiv, contentDiv } = createAccordionItem(resource);
-                
-                const contentPadding = document.createElement('div');
-                contentPadding.className = 'p-6 border-t border-gray-200';
-                
-                const groupedContent = resource.content.reduce((acc, item) => {
-                    const category = item.category || 'General';
-                    if (!acc[category]) acc[category] = [];
-                    acc[category].push(item);
-                    return acc;
-                }, {});
-
-                Object.keys(groupedContent).forEach(category => {
-                    if (resource.content.some(item => item.category)) {
-                        const categoryTitle = document.createElement('h4');
-                        categoryTitle.className = 'text-lg font-semibold text-gray-800 mb-3 mt-4 first:mt-0';
-                        categoryTitle.textContent = category;
-                        contentPadding.appendChild(categoryTitle);
-                    }
-
-                    const ul = document.createElement('ul');
-                    ul.className = 'space-y-4';
-                    
-                    groupedContent[category].forEach(item => {
-                        const li = document.createElement('li');
-                        li.className = 'flex flex-col';
-                        const nameSpan = document.createElement('span');
-                        nameSpan.className = 'font-bold text-gray-800';
-                        nameSpan.textContent = item.name;
-                        
-                        const descSpan = document.createElement('span');
-                        descSpan.className = 'text-gray-600 mt-1';
-                        
-                        if (item.syntax) {
-                            const syntaxCode = document.createElement('code');
-                            syntaxCode.className = 'text-sm bg-gray-200 text-indigo-700 rounded px-2 py-1 mr-2';
-                            syntaxCode.textContent = item.syntax;
-                            nameSpan.appendChild(syntaxCode);
-                        }
-                        
-                        descSpan.textContent = item.description;
-                        li.appendChild(nameSpan);
-                        li.appendChild(descSpan);
-                        ul.appendChild(li);
-                    });
-                    contentPadding.appendChild(ul);
-                });
-
-                contentDiv.appendChild(contentPadding);
-                container.appendChild(itemDiv);
-            });
-        }
-        
-        function renderCaseStudies() {
-            const container = document.getElementById('case-studies-container');
-            if (!container) return;
-            container.innerHTML = ''; 
-
-            caseStudies.forEach(study => {
-                const { itemDiv, contentDiv } = createAccordionItem(study, true);
-                
-                const contentPadding = document.createElement('div');
-                contentPadding.className = 'p-6 border-t border-gray-200 md:grid md:grid-cols-2 md:gap-8 items-center';
-
-                const descriptionDiv = document.createElement('div');
-                descriptionDiv.className = 'text-gray-600 space-y-2';
-                descriptionDiv.innerHTML = study.description;
-
-                const imageContainer = document.createElement('div');
-                imageContainer.className = 'mt-6 md:mt-0 flex items-center justify-center';
-                const image = document.createElement('img');
-                image.src = study.imageUrl;
-                image.alt = study.title;
-                image.className = 'rounded-lg shadow-sm max-h-80 object-contain cursor-pointer transition-transform duration-300 hover:scale-105';
-                imageContainer.appendChild(image);
-                
-                contentPadding.appendChild(descriptionDiv);
-                contentPadding.appendChild(imageContainer);
-                contentDiv.appendChild(contentPadding);
-                container.appendChild(itemDiv);
-            });
-        }
-        
-        function setupLightbox() {
-            const lightbox = document.getElementById('image-lightbox');
-            const lightboxImg = document.getElementById('lightbox-img');
-            const closeBtn = document.querySelector('.lightbox-close');
-
-            document.addEventListener('click', function (e) {
-                if (e.target.tagName === 'IMG' && e.target.closest('#case-studies-container')) {
-                    lightbox.style.display = "flex";
-                    lightboxImg.src = e.target.src;
-                }
-            });
-
-            closeBtn.onclick = function() {
-                lightbox.style.display = "none";
-            }
-
-            lightbox.onclick = function(e) {
-                if (e.target === lightbox) {
-                    lightbox.style.display = "none";
-                }
-            }
-        }
-    </script>
-
+  // Observe all reveals on load
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
